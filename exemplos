@@ -1,0 +1,37 @@
+*** Settings ***
+Library    SeleniumLibrary 
+*** Variables ***
+${browser}  chrome
+${url}  https://opensource-demo.orangehrmlive.com/
+*** Test Cases ***
+ImplicitWait Test
+    ${implicit_wait}=   get selenium implicit wait      #will give default implicit wait that is set
+    log to console    ${implicit_wait}      #will print the default implicit wait
+    set selenium implicit wait    10seconds     #will set a new implicit wait time
+    open browser    ${url}  ${browser}
+    maximize browser window
+    input text    xpath://input[@id="txtUsername"]  Admin
+    input text    xpath://input[@id="txtPassword"]  admin123
+    click element    xpath://input[@id="btnLogin"]
+ExplicitWait Test
+    go to        https://demo.anhtester.com/
+    maximize browser window
+    wait until page does not contain    OrangeHRM
+    wait until page contains    Selenium Easy - Best Demo website to practice Selenium Webdriver Online
+    click element    xpath://a[@id='btn_basic_example']
+    wait until page contains element    xapth://a[@class='list-group-item'][normalize-space()='Simple Form Demo']
+    click element    xpath://a[@id='btn_inter_example']
+    wait until page does not contain element    xpath://a[@class='list-group-item'][normalize-space()='Simple Form Demo']
+    click element    xpath://a[contains(text(),'Input Form with')]
+    wait until location is    https://demo.anhtester.com/input-form-demo.html
+    go back
+   wait until location is not    https://demo.anhtester.com/input-form-demo.html
+    wait until page does not contain    input-form-demo.html
+    wait until location contains    demo.anhtester.com
+    go to   https://demo.anhtester.com/ajax-form-submit-demo.html
+    wait until element contains        xpath://div[normalize-space()='Ajax Form']   Ajax Form
+    wait until element is visible   xpath://textarea[@id='description']
+    wait until element is enabled    xpath://input[@id='btn-submit']
+    go back
+    wait until element is not visible    xpath://textarea[@id='description']
+    close browser
